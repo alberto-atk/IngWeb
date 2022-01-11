@@ -15,4 +15,8 @@ public interface IdentityDAO {
     void createUser(UserDB _user);
     String generateRandomString();
     String getSHA256(String _txt);
+
+    RESTuser getUser(String _token);
+
+    void changePassword(String _token, String _newClearPwd);
 }

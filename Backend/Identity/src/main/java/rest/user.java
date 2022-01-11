@@ -42,13 +42,12 @@ public class user {
     
     @POST
     @Path ("{password}")
-    public String createUser(RESTuser _user, @PathParam("password") String _password) {
+    public void createUser(RESTuser _user, @PathParam("password") String _password) {
         String encodedPassword = identityStore.getSHA256(_password);
         String token = identityStore.generateRandomString();
         UserDB user = new UserDB(_user.getLogin(),_user.getName(),
                         token, encodedPassword);
         identityStore.createUser(user);
-        return user.toJson();
     }
 
     /**
@@ -58,7 +57,7 @@ public class user {
     @GET
     @Path ("{token}")
     public RESTuser getUser(@PathParam("token") String _token) {
-        return null;
+        return identityStore.getUser(_token);
     }
 
     /**
@@ -68,6 +67,7 @@ public class user {
     @PUT
     @Path ("{token}&{newClearPwd}")
     public void changePassword(@PathParam("token") String _token, @PathParam("newClearPwd") String _newClearPwd) {
+        identityStore.changePassword(_token,identityStore.getSHA256(_newClearPwd));
     }
     
 

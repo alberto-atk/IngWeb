@@ -38,4 +38,13 @@ public class UserDB {
     public String getToken(){
         return token;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
 }

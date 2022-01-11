@@ -143,6 +143,27 @@ public class IdentityStore implements IdentityDAO {
         users.put(_user.getLogin(), _user);
         save();
     }
+
+    public RESTuser getUser(String _token) {
+        for(UserDB u:users.values()){
+            if(_token.equals(u.getToken())){
+                return new RESTuser(u.getLogin(),u.getName(),"".getBytes());
+            }
+        }
+        return null;
+        
+    }
+
+    public void changePassword(String _token, String _newClearPwd) {
+        for(UserDB u:users.values()){
+            if(_token.equals(u.getToken())){
+                u.setPassword(_newClearPwd);
+                users.put(u.getLogin(), u);
+                save();
+                return;
+            }
+        }
+    }
     
     
 }
