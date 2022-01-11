@@ -5,6 +5,9 @@
  */
 package rest;
 
+import db.UserDB;
+import identity.IdentityDAO;
+import identity.IdentityStore;
 import identity.RESTuser;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -23,24 +26,29 @@ import javax.ws.rs.core.MediaType;
  *
  * @author alberto
  */
-@Path("generic")
+@Path("user")
 @RequestScoped
 public class user {
 
     @Context
     private UriInfo context;
+    
+    private IdentityDAO identityStore = IdentityStore.getInstance();
 
-    /**
-     * Creates a new instance of token
-     */
+
     public user() {
     }
     
     
     @POST
     @Path ("{password}")
-    public void createUser(RESTuser _user, @PathParam("password") String _password) {
-
+    public String createUser(RESTuser _user, @PathParam("password") String _password) {
+        String encodedPassword = identityStore.getSHA256(_password);
+        String token = identityStore.generateRandomString();
+        UserDB user = new UserDB(_user.getLogin(),_user.getName(),
+                        token, encodedPassword);
+        identityStore.createUser(user);
+        return user.toJson();
     }
 
     /**
