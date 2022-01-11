@@ -6,6 +6,7 @@
 package identity;
 
 import db.UserDB;
+import java.util.GregorianCalendar;
 
 /**
  *
@@ -16,7 +17,11 @@ public interface IdentityDAO {
     String generateRandomString();
     String getSHA256(String _txt);
 
-    RESTuser getUser(String _token);
+    RESTuser getUser(String _token, GregorianCalendar actualDate);
 
-    void changePassword(String _token, String _newClearPwd);
+    void changePassword(String _token, String _newClearPwd, GregorianCalendar actualDate);
+
+    String getToken(String _login, String _password, GregorianCalendar actualDate);
+
+    void cancelToken(String _token);
 }

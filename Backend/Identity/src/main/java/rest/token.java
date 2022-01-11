@@ -5,7 +5,13 @@
  */
 package rest;
 
+import db.UserDB;
+import identity.IdentityDAO;
+import identity.IdentityStore;
 import identity.RESTuser;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
@@ -29,6 +35,8 @@ public class token {
 
     @Context
     private UriInfo context;
+    private IdentityDAO identityStore = IdentityStore.getInstance();
+
 
     /**
      * Creates a new instance of user
@@ -38,12 +46,9 @@ public class token {
 
     
     @GET
-    @Path ("{token}&{password}")
-    public String getToken(@PathParam("token") String _token, @PathParam("password") String _password) {
-        RESTuser user = new RESTuser("hola","aa","hola".getBytes());
-        String jsonUser = user.toJson();
-        
-        return jsonUser;
+    @Path ("{login}&{password}")
+    public String getToken(@PathParam("login") String _login, @PathParam("password") String _password) {
+        return identityStore.getToken(_login,identityStore.getSHA256(_password), new GregorianCalendar());
     }
     
     

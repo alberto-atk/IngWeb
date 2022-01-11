@@ -9,6 +9,7 @@ import db.UserDB;
 import identity.IdentityDAO;
 import identity.IdentityStore;
 import identity.RESTuser;
+import java.util.GregorianCalendar;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
@@ -57,7 +58,7 @@ public class user {
     @GET
     @Path ("{token}")
     public RESTuser getUser(@PathParam("token") String _token) {
-        return identityStore.getUser(_token);
+        return identityStore.getUser(_token, new GregorianCalendar());
     }
 
     /**
@@ -67,7 +68,7 @@ public class user {
     @PUT
     @Path ("{token}&{newClearPwd}")
     public void changePassword(@PathParam("token") String _token, @PathParam("newClearPwd") String _newClearPwd) {
-        identityStore.changePassword(_token,identityStore.getSHA256(_newClearPwd));
+        identityStore.changePassword(_token,identityStore.getSHA256(_newClearPwd), new GregorianCalendar());
     }
     
 

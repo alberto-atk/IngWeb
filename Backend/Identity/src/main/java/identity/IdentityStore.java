@@ -16,6 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -68,6 +69,7 @@ public class IdentityStore implements IdentityDAO {
     *
     * @author Félix Serna
     */
+    @Override
     public String getSHA256(String _txt){
         String hash = null;
         byte[] msg = null;
@@ -139,31 +141,66 @@ public class IdentityStore implements IdentityDAO {
         }
     }
     
+    @Override
     public synchronized void createUser(UserDB _user){
         users.put(_user.getLogin(), _user);
         save();
     }
 
-    public RESTuser getUser(String _token) {
+    @Override
+    public RESTuser getUser(String _token, GregorianCalendar actualDate) {
         for(UserDB u:users.values()){
             if(_token.equals(u.getToken())){
-                return new RESTuser(u.getLogin(),u.getName(),"".getBytes());
+                if(!u.tokenExpired(actualDate)){
+                    return new RESTuser(u.getLogin(),u.getName(),"".getBytes());
+                }
+                return null;
             }
         }
         return null;
         
     }
 
-    public void changePassword(String _token, String _newClearPwd) {
+    @Override
+    public void changePassword(String _token, String _newClearPwd, GregorianCalendar actualDate) {
         for(UserDB u:users.values()){
             if(_token.equals(u.getToken())){
-                u.setPassword(_newClearPwd);
-                users.put(u.getLogin(), u);
-                save();
+                if(!u.tokenExpired(actualDate)){
+                    u.setPassword(_newClearPwd);
+                    users.put(u.getLogin(), u);
+                    save();
+                    return;
+                }
                 return;
             }
         }
     }
+
+    @Override
+    public String getToken(String _login, String _password, GregorianCalendar actualDate) {
+        for(UserDB u:users.values()){
+            if(_login.equals(u.getLogin()) && u.equalsPasswords(_password)){
+                if(!u.tokenExpired(actualDate)){
+                    return u.getToken();
+                }else{
+                    String newToken = this.generateRandomString();
+                    u.setToken(newToken);
+                    u.setTimeStampToken(actualDate);
+                    users.put(u.getLogin(),u);
+                    save();
+                    return newToken;
+                }
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void cancelToken(String _token) {
+        //no se muy bien que hacer
+    }
+    
+    
     
     
 }
