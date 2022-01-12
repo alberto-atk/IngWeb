@@ -58,7 +58,7 @@ public class user {
     @GET
     @Path ("{token}")
     public RESTuser getUser(@PathParam("token") String _token) {
-        return identityStore.getUser(_token, new GregorianCalendar());
+        return identityStore.getUser(_token, System.currentTimeMillis());
     }
 
     /**
@@ -68,7 +68,7 @@ public class user {
     @PUT
     @Path ("{token}&{newClearPwd}")
     public void changePassword(@PathParam("token") String _token, @PathParam("newClearPwd") String _newClearPwd) {
-        identityStore.changePassword(_token,identityStore.getSHA256(_newClearPwd), new GregorianCalendar());
+        identityStore.changePassword(_token,identityStore.getSHA256(_newClearPwd), System.currentTimeMillis());
     }
     
 

@@ -48,13 +48,13 @@ public class token {
     @GET
     @Path ("{login}&{password}")
     public String getToken(@PathParam("login") String _login, @PathParam("password") String _password) {
-        return identityStore.getToken(_login,identityStore.getSHA256(_password), new GregorianCalendar());
+        return identityStore.getToken(_login,identityStore.getSHA256(_password), System.currentTimeMillis());
     }
     
     
     @DELETE
     @Path ("{token}")
     public void cancelToken(@PathParam("token") String _token){
-        
+        identityStore.cancelToken(_token);
     }
 }

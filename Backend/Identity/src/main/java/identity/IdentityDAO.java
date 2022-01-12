@@ -17,11 +17,11 @@ public interface IdentityDAO {
     String generateRandomString();
     String getSHA256(String _txt);
 
-    RESTuser getUser(String _token, GregorianCalendar actualDate);
+    RESTuser getUser(String _token, Long actualDate);
 
-    void changePassword(String _token, String _newClearPwd, GregorianCalendar actualDate);
+    void changePassword(String _token, String _newClearPwd, Long actualDate);
 
-    String getToken(String _login, String _password, GregorianCalendar actualDate);
+    String getToken(String _login, String _password, Long actualDate);
 
     void cancelToken(String _token);
 }

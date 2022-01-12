@@ -148,7 +148,7 @@ public class IdentityStore implements IdentityDAO {
     }
 
     @Override
-    public RESTuser getUser(String _token, GregorianCalendar actualDate) {
+    public RESTuser getUser(String _token, Long actualDate) {
         for(UserDB u:users.values()){
             if(_token.equals(u.getToken())){
                 if(!u.tokenExpired(actualDate)){
@@ -162,7 +162,7 @@ public class IdentityStore implements IdentityDAO {
     }
 
     @Override
-    public void changePassword(String _token, String _newClearPwd, GregorianCalendar actualDate) {
+    public void changePassword(String _token, String _newClearPwd, Long actualDate) {
         for(UserDB u:users.values()){
             if(_token.equals(u.getToken())){
                 if(!u.tokenExpired(actualDate)){
@@ -177,19 +177,15 @@ public class IdentityStore implements IdentityDAO {
     }
 
     @Override
-    public String getToken(String _login, String _password, GregorianCalendar actualDate) {
+    public String getToken(String _login, String _password, Long actualDate) {
         for(UserDB u:users.values()){
             if(_login.equals(u.getLogin()) && u.equalsPasswords(_password)){
-                if(!u.tokenExpired(actualDate)){
-                    return u.getToken();
-                }else{
                     String newToken = this.generateRandomString();
                     u.setToken(newToken);
                     u.setTimeStampToken(actualDate);
                     users.put(u.getLogin(),u);
                     save();
                     return newToken;
-                }
             }
         }
         return null;
@@ -197,7 +193,15 @@ public class IdentityStore implements IdentityDAO {
 
     @Override
     public void cancelToken(String _token) {
-        //no se muy bien que hacer
+        for(UserDB u:users.values()){
+            if(_token.equals(u.getToken())){
+                    u.setToken("");
+                    u.setTimeStampToken(0L);
+                    users.put(u.getLogin(),u);
+                    save();
+                    return;
+            }
+        }
     }
     
     
