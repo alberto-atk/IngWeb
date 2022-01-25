@@ -54,8 +54,10 @@ body {
   border-top-right-radius: 0;
 }
 
-
-
-h6{
-  font-size: 1em;
+.logo {
+  position: relative;
+  left: 38%;
+  transform: translate(-50%, 0);
+  -ms-transform: translate(-50%, 0);
+  -webkit-transform: translate(-50%, 0);
 }

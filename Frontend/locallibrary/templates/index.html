@@ -46,20 +46,40 @@
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <ul class="navbar-nav me-auto mb-2 mb-md-0">
         <li class="nav-item">
-          <a class="{{ 1 }}" href="#">Inicio</a>
+          {% if Inicio %}
+            <a class="nav-link active" href="#">Inicio</a>
+          {% else %}
+            <a class="nav-link" href="#">Inicio</a>
+          {% endif %}
+          </li>
+        <li class="nav-item">
+          {% if Acercade %}
+            <a class="nav-link active" href="#">Acerca de</a>
+          {% else %}
+            <a class="nav-link" href="#">Acerca de</a>
+          {% endif %}
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="#">Acerca de</a>
+          {% if Contacto %}
+            <a class="nav-link active" href="#">Contacto</a>
+          {% else %}
+            <a class="nav-link" href="#">Contacto</a>
+          {% endif %}
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Contacto</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Reservas</a>
+          {% if Reservas %}
+            <a class="nav-link activate" href="#">Reservas</a>
+          {% else %}
+            <a class="nav-link" href="#">Reservas</a>
+          {% endif %}
         </li>
       </ul>
       <div class="nav pull-right">
-        <button class="btn"><i class="fa fa-sign-in"></i> Inicio sesión</button>
+        {%if user.is_authenticated %}
+          <button class="btn"><i class="fa fa-sign-in"></i> {{ user }}</button>
+        {% else %}
+          <button class="btn"><i class="fa fa-sign-out"></i> Inicio sesión</button>
+        {% endif %}
       </div>
     </div>
   </div>
