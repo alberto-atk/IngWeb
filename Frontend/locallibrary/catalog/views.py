@@ -24,6 +24,7 @@ def index(request):
         'num_instances_available': num_instances_available,
         'num_authors': num_authors,
         'num_visits': num_visits,
+        'Inicio' : True,
     }
 
     # Render the HTML template index.html with the data in the context variable
