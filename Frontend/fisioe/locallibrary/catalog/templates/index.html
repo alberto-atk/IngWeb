@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.88.1">
+    <title>Fisioterapia Diego Villalba</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/navbar-fixed/">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    {% load static %}
+
+    <!-- Bootstrap core CSS -->
+<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" >
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/navbar-top-fixed.css' %}" rel="stylesheet">
+  </head>
+  <body>
+    
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">DVillalba Fisioterapia</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav me-auto mb-2 mb-md-0">
+        <li class="nav-item">
+          {% if Inicio %}
+            <a class="nav-link active" href="#">Inicio</a>
+          {% else %}
+            <a class="nav-link" href="#">Inicio</a>
+          {% endif %}
+          </li>
+        <li class="nav-item">
+          {% if Acercade %}
+            <a class="nav-link active" href="#">Acerca de</a>
+          {% else %}
+            <a class="nav-link" href="#">Acerca de</a>
+          {% endif %}
+        </li>
+        <li class="nav-item">
+          {% if Contacto %}
+            <a class="nav-link active" href="#">Contacto</a>
+          {% else %}
+            <a class="nav-link" href="#">Contacto</a>
+          {% endif %}
+        </li>
+        <li class="nav-item">
+          {% if Reservas %}
+            <a class="nav-link activate" href="#">Reservas</a>
+          {% else %}
+            <a class="nav-link" href="#">Reservas</a>
+          {% endif %}
+        </li>
+      </ul>
+      <div class="nav pull-right">
+        {%if user.is_authenticated %}
+          <button class="btn"><i class="fa fa-sign-in"></i> {{ user }}</button>
+        {% else %}
+          <button class="btn"><i class="fa fa-sign-out"></i> Inicio sesión</button>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main class="container">
+
+</main>
+
+
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+
+      
+  </body>
+</html>
