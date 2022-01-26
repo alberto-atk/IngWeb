@@ -17,7 +17,9 @@
   </head>
 
   <body class="text-center">
-    <form class="form-signin">
+
+    <form class="form-signin" action="{% url 'login' %}" method="POST" >
+      {% csrf_token %}
       <img class="logo" src="{% static 'img/logo-menos-ancho.png' %}" alt="" width="218" height="323">
       <h1 class="h3 mb-3 font-weight-normal">Inicio sesión</h1>
       <br>
@@ -25,11 +27,9 @@
         <input type="password" id="inputPassword" class="form-control" placeholder="Contraseña" required>
 
       <button class="btn btn-lg btn-primary btn-block" type="submit">Iniciar sesión</button>
-      <!-- TODO Preguntar si poner el copy<p class="mt-5 mb-3 text-muted">&copy; 2022-2018</p>-->
-      <br> <br> <br>
-      <p>No tienes cuenta? <a href="register.html">Registrate aquí</a>.</p>
+
     </form>
-
-
+    <br> <br> <br>
+    <p>No tienes cuenta? <a href="register.html">Registrate aquí</a>.</p>
   </body>
 </html>
