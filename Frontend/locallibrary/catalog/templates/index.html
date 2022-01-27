@@ -15,85 +15,47 @@
 </div>
 <br>
 <br><br><br><br><br><br><br><br><br><br><br>
-<footer class="footer">
+<footer class="footer footer-color">
+  <br>
+  <br>
   <div class="container">
     <div class="row">
-      <div class="col">
-        1 of 1
-      </div>
-      <div class="col">
-        2 of 2
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <h5><img src="{% static 'img/logo-menos-ancho.png' %}" style="top:1000px" width="21.8" height="32.3">
-          Fisioterapia Diego Villalba. </h5>
-          <ul class="list-unstyled">
-            <li><a href="/">Inicio</a></li>
-            <li><a href="">Acerca de</a></li>
-            <li><a href="{% url 'contact' %}">Contacto</a></li>
-            <li><a href="">Reservas</a></li>
-          </ul>
-        </div>
-        <ul class="nav">
+      <div class="col-md-6">
+        <h6 style="color:white;"><img src="{% static 'img/logo-menos-ancho.png' %}" style="top:1000px" width="21.8"
+            height="32.3">
+          Fisioterapia Diego Villalba. </h6>
+        <ul class="list-unstyled list-position">
+          <li><a href="/">Inicio</a></li>
+          <li><a href="">Acerca de</a></li>
+          <li><a href="{% url 'contact' %}">Contacto</a></li>
+          <li><a href="">Reservas</a></li>
+        </ul>
+
+        <ul class="nav icons-position">
           <li class="nav-item"><a href="https://www.facebook.com/people/Fisioterapia-Diego-Villalba/100072784454524/"
               class="nav-link pl-0"><i class="fa fa-facebook fa-lg"></i></a></li>
           <li class="nav-item"><a href="https://www.instagram.com/dvillalba.fisio/?utm_medium=copy_link"
               class="nav-link"><i class="fa fa-instagram fa-lg"></i></a></li>
         </ul>
       </div>
-      <div class="col">
-        2 of 3
-      </div>
-      <div class="col">
-        3 of 3
+
+      <div class="col-md-6">
+        <h5 class="text-md-right" style="color:white">Contacte con nosotros</h5>
+        <hr style="color:white; ">
+
+        <form method="post" action="mailto:apbatecaz@gmail.com"  enctype="multipart/form-data" name="EmailForm">
+          <input type="email" id="email" name="email" class="form-control" placeholder="Introduzca su email" required>
+          <br>
+          <textarea name="message" class="form-control" placeholder="Introduzca su mensaje aquí" rows="5" cols="20"></textarea>
+          <br>
+          <input class="btn" type="submit" value="Enviar">
+        </form>
       </div>
     </div>
   </div>
-</footer>
-<footer class="footer">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-5">
-        <h5><img src="{% static 'img/logo-menos-ancho.png' %}" style="top:1000px" width="21.8" height="32.3">
-          Fisioterapia Diego Villalba. </h5>
-        <div class="row offset-2">
-          <div class="col-6">
-            <ul class="list-unstyled">
-              <li><a href="/">Inicio</a></li>
-              <li><a href="">Acerca de</a></li>
-              <li><a href="{% url 'contact' %}">Contacto</a></li>
-              <li><a href="">Reservas</a></li>
-            </ul>
-          </div>
-          <ul class="nav">
-            <li class="nav-item"><a href="https://www.facebook.com/people/Fisioterapia-Diego-Villalba/100072784454524/"
-                class="nav-link pl-0"><i class="fa fa-facebook fa-lg"></i></a></li>
-            <li class="nav-item"><a href="https://www.instagram.com/dvillalba.fisio/?utm_medium=copy_link"
-                class="nav-link"><i class="fa fa-instagram fa-lg"></i></a></li>
-          </ul>
-          <br>
-        </div>
-
-        <div class="col-md-5">
-          <h5 class="text-md-right">Contact Us</h5>
-          <hr>
-        </div>
-        <div class="col-md-5">
-          <form>
-            <fieldset class="form-group">
-              <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-            </fieldset>
-            <fieldset class="form-group">
-              <textarea class="form-control" id="exampleMessage" placeholder="Message"></textarea>
-            </fieldset>
-            <fieldset class="form-group text-xs-right">
-              <button type="button" class="btn btn-secondary-outline btn-lg">Send</button>
-            </fieldset>
-          </form>
-        </div>
-      </div>
-    </div>
+  <br>
+  <br>
+  <br>
+  <br>
 </footer>
 {% endblock %}
