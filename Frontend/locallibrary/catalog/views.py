@@ -55,4 +55,10 @@ def contact(request):
     }
     return render(request,'contact.html', context=context)
 
+def aboutme(request):
+    context = {
+        'Acercade' : True,
+        'showLoginLogout': True,
+    }
+    return render(request,'aboutme.html', context=context)
 

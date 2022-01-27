@@ -43,7 +43,7 @@
 <body>
   <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/">DVillalba Fisioterapia</a>
+      <a class="navbar-brand" href="/"> DVillalba Fisioterapia</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
         aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -60,9 +60,9 @@
           </li>
           <li class="nav-item">
             {% if Acercade %}
-            <a class="nav-link active" href="#">Acerca de</a>
+            <a class="nav-link active" href="{% url 'aboutme' %}">Acerca de</a>
             {% else %}
-            <a class="nav-link" href="#">Acerca de</a>
+            <a class="nav-link" href="{% url 'aboutme' %}">Acerca de</a>
             {% endif %}
           </li>
           <li class="nav-item">

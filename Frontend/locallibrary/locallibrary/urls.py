@@ -31,5 +31,5 @@ urlpatterns = [
     path('', RedirectView.as_view(url='catalog/')),
     re_path(r'^register/$', views.register, name='register'),
     re_path(r'^contact/$', views.contact, name='contact'),
-
+    re_path(r'^aboutme/$', views.aboutme, name='aboutme'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
