@@ -1,0 +1,28 @@
+.about {
+    margin-left: 200px;
+    margin-right: 200px;
+
+}
+
+/*Tablets*/
+@media only screen and (max-width:767px){
+    .about{
+        margin-left: 40px;
+        margin-right: 40px;  
+    }
+    .titulos{
+        margin-left: 50px;
+    }
+}
+
+
+/*Mobile*/
+@media only screen and (max-width:300px){
+    .about{
+        margin-left: 40px;
+        margin-right:430px;  
+    }
+    .titulos{
+        margin-left: 50px;
+    }
+}
