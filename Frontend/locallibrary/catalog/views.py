@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from catalog.models import User
+from catalog.models import Client
+from django.contrib.auth.models import User
 # Create your views here.
 
 def index(request):
@@ -10,26 +11,47 @@ def index(request):
     context = {
         'num_visits': num_visits,
         'Inicio' : True,
+        'showLoginLogout': True,
     }
 
     # Render the HTML template index.html with the data in the context variable
     return render(request, 'index.html', context=context)
 
 def register(request):
-    #data = {
-    #    'form': RegisterForm()
-    #}
-    #TODO MIRAR VIDEOS DE DJANTO, SI NO, CIFRAR PASS
-
-    if request.method == 'POST':
-        existeUser = User.objects.filter(login=request.POST['login'])
-        #user = User.objects.create_user(request.POST)
-        print(existeUser)
+    context = {
+        'showLoginLogout': False,
+    }
     return render(request,'register.html')
+
+def registerUser(request):
+    #YA REGISTRA, TODO preguntar a estos para redirigir bien.
+    context = {        
+        'Inicio' : True,
+        'showLoginLogout': True,}
+    if request.method == 'POST': 
+        existeCliente = Client.objects.filter(login=request.POST['login'])
+        if not existeCliente:
+            User.objects.create_user(username=request.POST['login'],
+                                   first_name=request.POST['name'],
+                                   last_name=request.POST['surname'],
+                                   email=request.POST['email'],
+                                   password=request.POST['password'])
+
+            Client.objects.create(login=request.POST['login'],
+                                   name=request.POST['name'],
+                                   surname=request.POST['surname'],
+                                   mail=request.POST['email'])
+            context['mensaje'] = "Usuario registrado correctamente"
+            return render(request,'index.html',context)
+        else:
+            context['mensaje'] = "Usuario existente"
+            return render(request,'index.html',context)
+
 
 def contact(request):
     context = {
         'Contacto' : True,
+        'showLoginLogout': True,
     }
     return render(request,'contact.html', context=context)
 

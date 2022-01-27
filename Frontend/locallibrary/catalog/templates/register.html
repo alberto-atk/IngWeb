@@ -1,3 +1,7 @@
+{% extends "base_generic.html" %}
+
+
+{% block content %}
 <!doctype html>
 <html lang="en">
   <head>
@@ -17,18 +21,18 @@
   </head>
 
   <body class="text-center">
-    <form class="form-signin" method="post" action="/">
+    <form class="form-signin" method="post" action="registerUser">
       {% csrf_token %}
       <img class="logo" src="{% static 'img/logo-menos-ancho.png' %}" alt="" width="218" height="323">
       <h1 class="h3 mb-3 font-weight-normal">Registro</h1>
       <br>
 
 
-        <input type="text" id="login" class="form-control" placeholder="Nombre de usuario" required autofocus>
-        <input type="text" id="name" class="form-control" placeholder="Nombre" required autofocus>
-        <input type="text" id="surname" class="form-control" placeholder="Apellidos" required autofocus>
-        <input type="email" id="email" class="form-control" placeholder="Correo electrónico" required>
-        <input type="password" id="password" class="form-control" placeholder="Contraseña" required>
+        <input type="text" id="login" name="login" class="form-control" placeholder="Nombre de usuario" required autofocus>
+        <input type="text" id="name" name="name" class="form-control" placeholder="Nombre" required autofocus>
+        <input type="text" id="surname" name="surname" class="form-control" placeholder="Apellidos" required autofocus>
+        <input type="email" id="email" name="email" class="form-control" placeholder="Correo electrónico" required>
+        <input type="password" id="password" name="password" class="form-control" placeholder="Contraseña" required>
 
 <!--  -->
         <button class="btn btn-lg btn-primary btn-block" type="submit">Registrarse</button>
@@ -40,3 +44,4 @@
 
   </body>
 </html>
+{% endblock %}

@@ -1,5 +1,8 @@
+{% extends "base_generic.html" %}
+{% load static %}
 
-  {% load static %}
+
+{% block content %}
   <!-- Bootstrap core CSS -->
   <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
 
@@ -22,8 +25,10 @@
       {{form.username}}
       {{form.password}}
       <button class="btn btn-lg btn-primary btn-block" type="submit">Iniciar sesión</button>
+      <br> <br>
       <p>No tienes cuenta? <a href="{% url 'register' %}">Registrate aquí</a>.</p>
 
     </form>
     <br> <br> <br>
   </body>
+  {% endblock %}
