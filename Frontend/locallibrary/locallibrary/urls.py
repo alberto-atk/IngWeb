@@ -19,10 +19,16 @@ from django.views.generic import RedirectView
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import include
+from django.urls import include, re_path
+from catalog import views
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('catalog/', include('catalog.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('', RedirectView.as_view(url='catalog/')),
+    re_path(r'^register/$', views.register, name='register'),
+    re_path(r'^contact/$', views.contact, name='contact'),
+
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
