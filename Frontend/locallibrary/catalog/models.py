@@ -24,3 +24,20 @@ class Booking(models.Model):
     def __str__(self):
         """String for representing the Model object."""
         return str(self.id)
+
+
+class Worker(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=15, help_text='Nombre')
+    surname = models.CharField(max_length=30, help_text='Nombre')
+    mail = models.EmailField(max_length=30, help_text="Email address")
+
+    image = models.ImageField(max_length=100)
+    description = models.CharField(max_length=500, help_text='Description')
+    
+    titles = models.CharField(max_length=500, help_text='Titles (comma separated)')
+    collaborations = models.CharField(max_length=500, help_text='Collaborations(comma separated)')
+    def __str__(self):
+        """String for representing the Model object."""
+        return str(self.id)
+

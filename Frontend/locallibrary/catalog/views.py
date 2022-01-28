@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from catalog.models import Client, Booking
+from catalog.models import Client, Booking, Worker
 from django.contrib.auth.models import User
 import datetime
 from django.contrib.auth.decorators import login_required
@@ -59,9 +59,23 @@ def contact(request):
     return render(request,'contact.html', context=context)
 
 def aboutme(request):
+
+    workers = Worker.objects.filter().values()
+
+    workersList = []
+    for worker in workers:
+        workersList.append((
+            worker['name'] + " " + worker['surname'],
+            worker['image'],
+            worker['description'],
+            worker['titles'].split(','), 
+            worker['collaborations'].split(','),
+        ))
+
     context = {
         'Acercade' : True,
         'showLoginLogout': True,
+        'workersList':workersList
     }
     return render(request,'aboutme.html', context=context)
 

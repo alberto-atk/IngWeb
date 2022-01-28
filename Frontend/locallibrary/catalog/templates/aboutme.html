@@ -5,48 +5,36 @@
 <!-- Custom styles for this template -->
 
 {% block content %}
-<img class="rounded mx-auto d-block" src="{% static 'img/sobremifoto.jpg' %}">
-<br>
-<div class="about">
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A iusto
-        perferendis, optio veritatis
-        earum nesciunt
-        deleniti autem, animi, minus recusandae eum nihil at dicta minima magni expedita. Sint error cumque
-        laboriosam
-        facilis ducimus consequuntur facere itaque beatae, ipsa neque explicabo. Facere dolores, ut minima debitis
-        enim
-        magni numquam dicta quasi sed est aliquam, iusto neque eos eius laudantium ad, iste autem harum commodi
-        exercitationem cupiditate consequatur Squidem obcaecati eum! Inventore fugiat animi excepturi odit fugit
-        omnis
-        alias
-        exercitationem aspernatur ipsa! Nostrum magnam totam suscipit vitae nobis provident labore, quasi, soluta
-        omnis
-        quam
-        nihil incidunt asperiores exercitationem, optio ipsam sed veniam!</p>
-</div>
+{% for worker in workersList %}
+    <img class="rounded mx-auto d-block" src="{{ MEDIA_URL }}{{ worker.1 }}">
+    <br>
+    <div class="about">
+        <p>{{ worker.0 }}, {{ worker.2 }}</p>
+    </div>
 
-<div class="row">
-    <div class="col-md-8 offset-md-5">
-        <div class="titulos_aboutme">
-            <h5>Títulos:</h5>
-            <ul>
-                <li>Lorem ipsum dolor sit.</li>
-                <li>Lorem ipsum dolor sit.</li>
-                <li>Lorem ipsum dolor sit.</li>
-            </ul>
+    <div class="row">
+        <div class="col-md-5 offset-md-5">
+            <div class="titulos_aboutme">
+                <h5>Títulos:</h5>
+                <ul>
+                    {% for title in worker.3 %}
+                        <li>{{ title }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-md-8 offset-md-5">
-        <div class="titulos_aboutme">
-            <h5>Colaboraciones:</h5>
-            <ul>
-                <li>Lorem ipsum dolor sit.</li>
-                <li>Lorem ipsum dolor sit.</li>
-                <li>Lorem ipsum dolor sit.</li>
-            </ul>
+    <div class="row">
+        <div class="col-md-5 offset-md-5">
+            <div class="titulos_aboutme">
+                <h5>Colaboraciones:</h5>
+                <ul>
+                    {% for collaboration in worker.4 %}
+                        <li>{{ collaboration }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
     </div>
-</div>
+{% endfor %}
 {% endblock %}

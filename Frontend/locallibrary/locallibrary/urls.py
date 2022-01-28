@@ -35,4 +35,4 @@ urlpatterns = [
     re_path(r'^aboutme/$', views.aboutme, name='aboutme'),
     re_path(r'^bookings/$', views.bookings, name='bookings'),
     re_path(r'^bookings/makeBooking', views.makeBooking, name='makeBooking'),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
