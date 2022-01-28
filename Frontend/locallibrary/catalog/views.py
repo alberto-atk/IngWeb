@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.shortcuts import redirect
 from catalog.models import Client, Booking, Worker
 from django.contrib.auth.models import User
 import datetime
@@ -24,31 +25,32 @@ def register(request):
     context = {
         'showLoginLogout': False,
     }
-    return render(request,'register.html')
+    return render(request,'register.html', context=context)
 
 def registerUser(request):
-    #YA REGISTRA, TODO preguntar a estos para redirigir bien.
-    context = {        
-        'Inicio' : True,
-        'showLoginLogout': True,}
+    #TODO MOSTRAR ERRORES
+
     if request.method == 'POST': 
-        existeCliente = Client.objects.filter(login=request.POST['login'])
-        if not existeCliente:
+        existeCliente = Client.objects.filter(username=request.POST['login'])
+        print(existeCliente.count())
+        print(existeCliente)
+        if existeCliente.count() == 0:
             User.objects.create_user(username=request.POST['login'],
                                    first_name=request.POST['name'],
                                    last_name=request.POST['surname'],
                                    email=request.POST['email'],
                                    password=request.POST['password'])
 
-            Client.objects.create(login=request.POST['login'],
+            Client.objects.create(username=request.POST['login'],
                                    name=request.POST['name'],
                                    surname=request.POST['surname'],
                                    mail=request.POST['email'])
-            context['mensaje'] = "Usuario registrado correctamente"
-            return render(request,'index.html',context)
+            print("Usuario registrado correctamente")
+            return redirect('/')
         else:
-            context['mensaje'] = "Usuario existente"
-            return render(request,'index.html',context)
+            print("Usuario existente")
+            return redirect('/')
+
 
 
 def contact(request):
@@ -78,16 +80,28 @@ def aboutme(request):
         'workersList':workersList
     }
     return render(request,'aboutme.html', context=context)
-
+    
+@login_required
 def bookings(request):
+
+    cliente = Client.objects.get(username=request.user)
+
+    bookings = Booking.objects.filter(client=cliente).values()
+
+    myBookings = []
+    for booking in bookings:
+        myBookings.append((booking['startDate'].strftime("%d/%m/%Y %H:%M"), 
+                            booking['startDate'].strftime("%Y-%m-%d %H:%M")))
+
+
     context = {
         'Reservas' : True,
         'showLoginLogout': True,
+        'myBookings': myBookings,
     }
-
     return render(request,'bookings.html', context=context)
 
-
+@login_required
 def getAvailableBookings(request):
     context = {
         'Reservas' : True,
@@ -118,17 +132,17 @@ def getAvailableBookings(request):
                 if position is not None:
                     hours[position] =(booking["startDate"].hour,(booking["startDate"].hour+1), True)
 
-            context["hours"] = hours
-            context["today"] = request.POST["datepicker"]
-    return render(request,'bookings.html', context=context)
+            for hour in hours:
+                if(hour[2] is False):
+                    context["hours"] = hours
+                    context["today"] = request.POST["datepicker"]
+                    return render(request,'bookings.html', context=context)
+            print("todas reservas estan ocupadas") #TODO PONER CON METODOS
+    return redirect('bookings')
 
 @login_required
 def makeBooking(request):
-    context = {
-        'Reservas' : True,
-        'showLoginLogout': True,
-    }
-    if (request.method == "POST") and (request.POST["datepicker"] is not None):
+    if (request.method == "POST") and (request.POST["datepicker"] is not None) and (request.POST["bookingTime"] is not None):
         date = datetime.datetime.fromisoformat(request.POST["datepicker"])
         date += datetime.timedelta(hours=int(request.POST["bookingTime"]))
         cliente = Client.objects.get(username=request.user)
@@ -136,7 +150,11 @@ def makeBooking(request):
         print(str(date) + " " + str(cliente))
         Booking.objects.create(client=cliente,
                                 startDate=date)
+    return redirect('bookings')
 
-    return render(request,'bookings.html', context=context)
-
-    
+@login_required
+def deleteBooking(request):
+    if (request.method == "POST") and (request.POST["bookingDelete"] is not None):
+        booking = Booking.objects.get(startDate=request.POST["bookingDelete"])
+        booking.delete()
+    return redirect('bookings')

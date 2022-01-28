@@ -12,7 +12,7 @@
     <select class="form-control" name="bookingTime" id="bookingTime" type="text" style="width:200px">
         {% for booking in hours %}
             {% if booking.2 == False %}
-                <option value="{{ booking.0 }}">{{ booking.0 }}:00 - {{ booking.1 }}:00</th>
+                <option value="{{ booking.0 }}">{{ booking.0 }}:00 - {{ booking.1 }}:00
             {% endif %}
         {% endfor %}
     </select>
@@ -30,6 +30,21 @@
     <button class="btn btn-lg btn-primary btn-block" type="submit"><i class="fa fa-search"></i> Buscar</button>
 
 </form>
+{% endif %}
+
+{% if myBookings %}
+    <form class="form-signin" method="post" action="deleteBooking">
+        {% csrf_token %}
+        <select class="form-control" name="bookingDelete" id="bookingDelete" type="text" style="width:200px">
+            {% for booking in myBookings %}
+                <option value="{{ booking.1 }}">{{ booking.0 }}
+            {% endfor %}
+        </select>
+        <br>
+        <!--TODO poner en rojo-->
+        <button class="btn btn-danger" type="submit"><i class="fa fa-times"></i>
+            Cancelar</button>
+    </form>
 {% endif %}
 
 <script>
