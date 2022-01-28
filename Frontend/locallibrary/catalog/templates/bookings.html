@@ -3,23 +3,37 @@
 {% load static %}
 {% block content %}
 
+
+{% if hours %}
+<form class="form-signin" method="post" action="makeBooking">
+    {% csrf_token %}
+    <input id="datepicker" readonly="readonly" name="datepicker" class="form-control" type="date" value="{{ today }}" style="width:200px" />
+    <br>
+    <select class="form-control" name="bookingTime" id="bookingTime" type="text" style="width:200px">
+        {% for booking in hours %}
+            {% if booking.2 == False %}
+                <option value="{{ booking.0 }}">{{ booking.0 }}:00 - {{ booking.1 }}:00</th>
+            {% endif %}
+        {% endfor %}
+    </select>
+    <br>
+    <button class="btn btn-lg btn-primary btn-block" type="submit"><i class="fa fa-calendar-check-o"></i>
+        Reservar</button>
+</form>
+
+{% else %}
 <form class="form-signin" method="post" action="getBookings">
     {% csrf_token %}
-    <input id="datepicker" name="datepicker" class="form-control" type="date" value="today" style="width:200px" required/>
+    <input id="datepicker" name="datepicker" class="form-control" type="date" style="width:200px"
+        required />
     <br>
     <button class="btn btn-lg btn-primary btn-block" type="submit"><i class="fa fa-search"></i> Buscar</button>
 
 </form>
-{% for booking in hours %}
-    {% if booking.1 %}
-        <p> {{ booking.0 }}</p>
-        <h1>{{ booking.1 }}</h1>
-    {% else %}
-        <p> {{ booking.0 }}</p>
-        <p>{{ booking.1 }}</p>
-    {% endif %}
-{% endfor %}
+{% endif %}
+
 <script>
     document.getElementById('datePicker').valueAsDate = new Date();
+    document.getElementById('datePicker').min = new Date();
 </script>
 {% endblock %}

@@ -2,6 +2,7 @@ from django.shortcuts import render
 from catalog.models import Client, Booking
 from django.contrib.auth.models import User
 import datetime
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -82,25 +83,46 @@ def getAvailableBookings(request):
     if (request.method == "POST") and (request.POST["datepicker"] is not None):
         date = datetime.datetime.fromisoformat(request.POST["datepicker"])
         dateNextDay = date + datetime.timedelta(days=1)
-        bookings = Booking.objects.filter(startDate__range=[date,dateNextDay]).values()
-        
-        if(date.weekday() <= 4): #es entre semana
-            startTime = 15
-            endTime = 21    
-        else: #finde
-            startTime = 10
-            endTime = 13
-        
-        hours = [] 
-        for i in range(startTime,endTime):
-            hours.append((i,False))
-        
-        for booking in bookings:
-            position = hours.index((booking["startDate"].hour, False))
-            if position is not None:
-                hours[position] =(booking["startDate"].hour, True)
+        dateToday = datetime.datetime.fromisoformat(datetime.datetime.today().strftime('%Y-%m-%d'))
+        print(str(date) + " " + str(dateToday))
+        if(date >= dateToday):
+            bookings = Booking.objects.filter(startDate__range=[date,dateNextDay]).values()
+            
+            if(date.weekday() <= 4): #es entre semana
+                startTime = 15
+                endTime = 21    
+            else: #finde
+                startTime = 10
+                endTime = 13
+            
+            hours = [] 
+            for i in range(startTime,endTime):
+                hours.append((i,i+1,False))
+            
+            for booking in bookings:
+                position = hours.index((booking["startDate"].hour, (booking["startDate"].hour+1), False))
+                if position is not None:
+                    hours[position] =(booking["startDate"].hour,(booking["startDate"].hour+1), True)
 
-        context["hours"] = hours
-        
+            context["hours"] = hours
+            context["today"] = request.POST["datepicker"]
     return render(request,'bookings.html', context=context)
+
+@login_required
+def makeBooking(request):
+    context = {
+        'Reservas' : True,
+        'showLoginLogout': True,
+    }
+    if (request.method == "POST") and (request.POST["datepicker"] is not None):
+        date = datetime.datetime.fromisoformat(request.POST["datepicker"])
+        date += datetime.timedelta(hours=int(request.POST["bookingTime"]))
+        cliente = Client.objects.get(username=request.user)
+
+        print(str(date) + " " + str(cliente))
+        Booking.objects.create(client=cliente,
+                                startDate=date)
+
+    return render(request,'bookings.html', context=context)
+
     
