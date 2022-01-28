@@ -1,0 +1,25 @@
+{% extends "base_generic.html" %}
+
+{% load static %}
+{% block content %}
+
+<form class="form-signin" method="post" action="getBookings">
+    {% csrf_token %}
+    <input id="datepicker" name="datepicker" class="form-control" type="date" value="today" style="width:200px" required/>
+    <br>
+    <button class="btn btn-lg btn-primary btn-block" type="submit"><i class="fa fa-search"></i> Buscar</button>
+
+</form>
+{% for booking in hours %}
+    {% if booking.1 %}
+        <p> {{ booking.0 }}</p>
+        <h1>{{ booking.1 }}</h1>
+    {% else %}
+        <p> {{ booking.0 }}</p>
+        <p>{{ booking.1 }}</p>
+    {% endif %}
+{% endfor %}
+<script>
+    document.getElementById('datePicker').valueAsDate = new Date();
+</script>
+{% endblock %}

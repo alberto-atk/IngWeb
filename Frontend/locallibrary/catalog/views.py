@@ -1,6 +1,8 @@
 from django.shortcuts import render
-from catalog.models import Client
+from catalog.models import Client, Booking
 from django.contrib.auth.models import User
+import datetime
+
 # Create your views here.
 
 def index(request):
@@ -62,3 +64,43 @@ def aboutme(request):
     }
     return render(request,'aboutme.html', context=context)
 
+def bookings(request):
+    context = {
+        'Reservas' : True,
+        'showLoginLogout': True,
+    }
+
+    return render(request,'bookings.html', context=context)
+
+
+def getAvailableBookings(request):
+    context = {
+        'Reservas' : True,
+        'showLoginLogout': True,
+    }
+    
+    if (request.method == "POST") and (request.POST["datepicker"] is not None):
+        date = datetime.datetime.fromisoformat(request.POST["datepicker"])
+        dateNextDay = date + datetime.timedelta(days=1)
+        bookings = Booking.objects.filter(startDate__range=[date,dateNextDay]).values()
+        
+        if(date.weekday() <= 4): #es entre semana
+            startTime = 15
+            endTime = 21    
+        else: #finde
+            startTime = 10
+            endTime = 13
+        
+        hours = [] 
+        for i in range(startTime,endTime):
+            hours.append((i,False))
+        
+        for booking in bookings:
+            position = hours.index((booking["startDate"].hour, False))
+            if position is not None:
+                hours[position] =(booking["startDate"].hour, True)
+
+        context["hours"] = hours
+        
+    return render(request,'bookings.html', context=context)
+    

@@ -77,24 +77,24 @@
           </li>
           <li class="nav-item">
             {% if Reservas %}
-            <a class="nav-link activate" href="#">Reservas</a>
+              <a class="nav-link active" href="{% url 'bookings' %}">Reservas</a>
             {% else %}
-            <a class="nav-link" href="#">Reservas</a>
+              <a class="nav-link" href="{% url 'bookings' %}">Reservas</a>
             {% endif %}
           </li>
         </ul>
         {% if showLoginLogout %}
-          <div class="nav pull-right">
-            {%if user.is_authenticated %}
-              <a href="{% url 'logout'%}?next={{request.path}}">
-                <button class="btn" ><i class="fa fa-user"></i> {{ user.get_username }}</button>
-              </a>
-            {% else %}
-              <a href="{% url 'login'%}?next={{request.path}}">
-                <button class="btn"><i class="fa fa-sign-out"></i> Inicio sesión</button>
-              </a>
-            {% endif %}
-          </div>
+        <div class="nav pull-right">
+          {%if user.is_authenticated %}
+          <a href="{% url 'logout'%}?next={{request.path}}">
+            <button class="btn"><i class="fa fa-user"></i> {{ user.get_username }}</button>
+          </a>
+          {% else %}
+          <a href="{% url 'login'%}?next={{request.path}}">
+            <button class="btn"><i class="fa fa-sign-out"></i> Inicio sesión</button>
+          </a>
+          {% endif %}
+        </div>
         {% endif %}
         {% endblock %}
       </div>
@@ -104,5 +104,50 @@
 
   <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 </body>
+<br><br><br><br><br><br>
+<footer class="footer footer-color">
+  <br>
+  <br>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h6 style="color:white;"><img src="{% static 'img/logo-menos-ancho.png' %}" style="top:1000px" width="21.8"
+            height="32.3">
+          Fisioterapia Diego Villalba. </h6>
+        <ul class="list-unstyled list-position">
+          <li><a href="/">Inicio</a></li>
+          <li><a href="{% url 'aboutme' %}">Acerca de</a></li>
+          <li><a href="{% url 'contact' %}">Contacto</a></li>
+          <li><a href="{% url 'bookings' %}">Reservas</a></li>
+        </ul>
+
+        <ul class="nav icons-position">
+          <li class="nav-item"><a href="https://www.facebook.com/people/Fisioterapia-Diego-Villalba/100072784454524/"
+              class="nav-link pl-0"><i class="fa fa-facebook fa-lg"></i></a></li>
+          <li class="nav-item"><a href="https://www.instagram.com/dvillalba.fisio/?utm_medium=copy_link"
+              class="nav-link"><i class="fa fa-instagram fa-lg"></i></a></li>
+        </ul>
+      </div>
+
+      <div class="col-md-6">
+        <h5 class="text-md-right" style="color:white">Contacte con nosotros</h5>
+        <hr style="color:white; ">
+
+        <form method="post" action="mailto:apbatecaz@gmail.com" enctype="multipart/form-data" name="EmailForm">
+          <input type="email" id="email" name="email" class="form-control" placeholder="Introduzca su email" required>
+          <br>
+          <textarea name="message" class="form-control" placeholder="Introduzca su mensaje aquí" rows="5"
+            cols="20"></textarea>
+          <br>
+          <input class="btn" type="submit" value="Enviar">
+        </form>
+      </div>
+    </div>
+  </div>
+  <br>
+  <br>
+  <br>
+  <br>
+</footer>
 
 </html>

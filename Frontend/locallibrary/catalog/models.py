@@ -15,3 +15,12 @@ class Client(models.Model):
     def __str__(self):
         """String for representing the Model object."""
         return self.login
+
+class Booking(models.Model):
+    id = models.AutoField(primary_key=True)
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    startDate = models.DateTimeField(auto_now_add=False)
+
+    def __str__(self):
+        """String for representing the Model object."""
+        return str(self.id)

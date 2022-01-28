@@ -28,8 +28,10 @@ urlpatterns = [
     path('catalog/', include('catalog.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('register/registerUser', views.registerUser, name='registerUser'),
+    path('bookings/getBookings', views.getAvailableBookings, name='getAvailableBookings'),
     path('', RedirectView.as_view(url='catalog/')),
     re_path(r'^register/$', views.register, name='register'),
     re_path(r'^contact/$', views.contact, name='contact'),
     re_path(r'^aboutme/$', views.aboutme, name='aboutme'),
+    re_path(r'^bookings/$', views.bookings, name='bookings'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
