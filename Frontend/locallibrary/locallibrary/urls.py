@@ -37,7 +37,7 @@ urlpatterns = [
     re_path(r'^aboutme/$', views.aboutme, name='aboutme'),
     re_path(r'^bookings/$', views.bookings, name='bookings'),
     re_path(r'^settings/$', views.settings, name='settings'),
+    re_path(r'^editPublications/$', views.editPublications, name='editPublications'),
     re_path(r'^bookings/makeBooking', views.makeBooking, name='makeBooking'),
-
-
+    re_path(r'^publicationDetails/(?P<pk>\d+)$',views.publicationDetails, name='publicationDetails'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -31,12 +31,12 @@
             <img src="{{ MEDIA_URL }}{{ publication.2 }}" alt="" class="w-100">
           </div>
           <div class="col-lg-8 col-md-8 col-sm-8">
-            <a href="music.html" class="small text-main pt-2">{{ publication.0 }}</a>
+            <a href="" class="small text-main pt-2">{{ publication.0 }}</a>
             <h5 class="pt-2">{{ publication.1 }}</h5>
           </div>
           <p class="pt-4 small">{{ publication.3 }}</p>
           <p class="small">{{ publication.4 }}</p>
-          <a href="article.html">Leer el post completo</a>
+          <a href="{% url 'publicationDetails' publication.5 %}">Leer el post completo</a>
         </div>
       </div>
       {% endfor %}

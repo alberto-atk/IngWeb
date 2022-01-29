@@ -10,23 +10,15 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def index(request):
-    publications = Publication.objects.filter().values()
-    publicationsModified = []
-    locale.setlocale(locale.LC_ALL, '') 
-
-    for publication in publications:
-        publicationsModified.append((
-            publication['hashtags'],
-            publication['title'],
-            publication['image'],
-            publication['description'],
-            publication['date'].strftime("%d %b %Y %H:%M")
-        ))
+    esEditor = False
+    if request.user.groups.filter(name__in=['Editor']):
+        esEditor = True
 
     context = {
         'Inicio' : True,
         'showLoginLogout': True,
-        'publications': publicationsModified
+        'publications': getPublications(),
+        'EditarPublicaciones': esEditor,
     }
 
     return render(request, 'index.html', context=context)
@@ -64,14 +56,20 @@ def registerUser(request):
 
 
 def contact(request):
+    esEditor = False
+    if request.user.groups.filter(name__in=['Editor']):
+        esEditor = True
     context = {
         'Contacto' : True,
         'showLoginLogout': True,
+        'EditarPublicaciones': esEditor,
     }
     return render(request,'contact.html', context=context)
 
 def aboutme(request):
-
+    esEditor = False
+    if request.user.groups.filter(name__in=['Editor']):
+        esEditor = True
     workers = Worker.objects.filter().values()
 
     workersList = []
@@ -87,13 +85,16 @@ def aboutme(request):
     context = {
         'Acercade' : True,
         'showLoginLogout': True,
-        'workersList':workersList
+        'workersList':workersList,
+        'EditarPublicaciones': esEditor,
     }
     return render(request,'aboutme.html', context=context)
     
 @login_required
 def bookings(request):
-
+    esEditor = False
+    if request.user.groups.filter(name__in=['Editor']):
+        esEditor = True
     cliente = Client.objects.get(username=request.user)
 
     bookings = Booking.objects.filter(client=cliente).values()
@@ -108,6 +109,7 @@ def bookings(request):
         'Reservas' : True,
         'showLoginLogout': True,
         'myBookings': myBookings,
+        'EditarPublicaciones': esEditor,
     }
     return render(request,'bookings.html', context=context)
 
@@ -172,16 +174,18 @@ def deleteBooking(request):
 
 @login_required
 def settings(request):
-
+    esEditor = False
+    if request.user.groups.filter(name__in=['Editor']):
+        esEditor = True
     client = Client.objects.get(username=request.user)
-
-    client.mail = "apbatecaz@gmail.com"    
+   
     context = {
         'showLoginLogout': False,
         'name': client.name,
         'username': client.username,
         'mail':client.mail,
-        'surname':client.surname
+        'surname':client.surname,
+        'EditarPublicaciones': esEditor,
     }    
     
     return render(request,'settings.html', context=context)
@@ -211,7 +215,66 @@ def changeSettings(request):
             print(user.email)
             #TODO mirar porque el correo no va
 
+        if(request.POST['password'] != '' and request.POST['password2'] != ''):
+            if (request.POST['password'] == request.POST['password2']):
+                user.password = request.POST['password']
+        else:
+            print("Las contraseñas estan vacías")
         client.save()
         user.save()
         
     return redirect('settings')
+
+@login_required
+def editPublications(request):
+    if request.user.groups.filter(name__in=['Editor']):
+        esEditor = False
+        if request.user.groups.filter(name__in=['Editor']):
+            esEditor = True
+
+
+        context = {
+            'EditarPublicaciones':True,
+            'ActivarEditarPublicaciones':True,
+            'showLoginLogout': True,
+            'publications':getPublications(),
+
+        }
+        return render(request,'editPublications.html',context=context)
+    return redirect('/')
+
+def getPublications():
+    publicationsBD = Publication.objects.filter().values()
+    publications = []
+    locale.setlocale(locale.LC_ALL, '') 
+    for publication in publicationsBD:
+        publications.append((
+            publication['hashtags'],
+            publication['title'],
+            publication['image'],
+            publication['description'],
+            publication['date'].strftime("%d %b %Y %H:%M"),
+            publication['id']
+        ))
+    return publications
+
+
+def publicationDetails(request, pk):
+    if pk:
+        publication = Publication.objects.filter(pk=pk).values()[0]
+        esEditor = False
+        locale.setlocale(locale.LC_ALL, '') 
+        if request.user.groups.filter(name__in=['Editor']):
+            esEditor = True
+        context = {
+            'Inicio' : True,
+            'EditarPublicaciones':esEditor,
+            'showLoginLogout': True,
+            'hashtags': publication['hashtags'],
+            'title': publication['title'],
+            'image': publication['image'],
+            'content': publication['content'],
+            'date': publication['date'].strftime("%d %b %Y %H:%M"),
+        }
+        return render(request,'publicationDetails.html', context=context)
+

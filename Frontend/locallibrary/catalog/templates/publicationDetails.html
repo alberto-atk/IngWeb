@@ -1,0 +1,21 @@
+{% extends "base_generic.html" %}
+
+{% load static %}
+{% block content %}
+<br>
+<div class="container">
+    <div class="row bg-white pb-4">
+      <div class="col pr-0">
+        <img src="{{ MEDIA_URL }}{{ image }}" alt="" class="w-100">
+      </div>
+      <div class="col bg-white p-4">
+        <a href="music.html" class="small text-main pt-5">{{ hashtags }}</a>
+        <h3 class="pt-2">{{ title }}</h3>
+        <p class="small text-secondary pb-2">{{ date }}</p>
+        <p>{{ content }}</p>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}
