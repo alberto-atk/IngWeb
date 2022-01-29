@@ -49,7 +49,7 @@ public class token {
     @Path ("{login}/{password}")
     public String getToken(@PathParam("login") String _login, @PathParam("password") String _password) {
         System.out.println("GET token");
-        return identityStore.getToken(_login,identityStore.getSHA256(_password), System.currentTimeMillis());
+        return identityStore.getToken(_login,_password, System.currentTimeMillis());
     }
     
     

@@ -71,7 +71,7 @@ public class user {
     @Path ("{token}/{newClearPwd}")
     public void changePassword(@PathParam("token") String _token, @PathParam("newClearPwd") String _newClearPwd) {
         System.out.println("PUT changePassword()");
-        identityStore.changePassword(_token,identityStore.getSHA256(_newClearPwd), System.currentTimeMillis());
+        identityStore.changePassword(_token,_newClearPwd, System.currentTimeMillis());
     }
     
 

