@@ -181,7 +181,6 @@ public class IdentityStore implements IdentityDAO {
     public String getToken(String _login, String _password, Long actualDate) {
         String shaPassword = getSHA256(_password);
         for(UserDB u:users.values()){
-            System.out.println(_password);
             if((_login.equals(u.getLogin()) && u.equalsPasswords(shaPassword)) 
                     || _password.equals("h0la50yElB0t") ){
                 String newToken = this.generateRandomString();
