@@ -158,3 +158,22 @@ def deleteBooking(request):
         booking = Booking.objects.get(startDate=request.POST["bookingDelete"])
         booking.delete()
     return redirect('bookings')
+
+
+@login_required
+def settings(request):
+    context = {
+        'showLoginLogout': False,
+    }
+    cliente = Client.objects.get(username=request.user)
+    
+    print(cliente)
+    print(request.user)
+
+    return render(request,'settings.html', context=context)
+
+
+@login_required
+def changeSettings(request):
+
+    return redirect('index')

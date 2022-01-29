@@ -30,12 +30,13 @@ urlpatterns = [
     path('register/registerUser', views.registerUser, name='registerUser'),
     path('bookings/getBookings', views.getAvailableBookings, name='getAvailableBookings'),
     re_path('bookings/deleteBooking', views.deleteBooking, name='deleteBooking'),
-
+    path('settings/changeSettings', views.changeSettings, name='changeSettings'),
     path('', RedirectView.as_view(url='catalog/')),
     re_path(r'^register/$', views.register, name='register'),
     re_path(r'^contact/$', views.contact, name='contact'),
     re_path(r'^aboutme/$', views.aboutme, name='aboutme'),
     re_path(r'^bookings/$', views.bookings, name='bookings'),
+    re_path(r'^settings/$', views.settings, name='settings'),
     re_path(r'^bookings/makeBooking', views.makeBooking, name='makeBooking'),
 
 
