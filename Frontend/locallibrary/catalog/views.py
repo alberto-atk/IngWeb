@@ -278,3 +278,14 @@ def publicationDetails(request, pk):
         }
         return render(request,'publicationDetails.html', context=context)
 
+@login_required
+def deletePublication(request, pk):
+    if request.user.groups.filter(name__in=['Editor']) and pk:
+        esEditor = False
+        if request.user.groups.filter(name__in=['Editor']):
+            esEditor = True
+        publication = Publication.objects.filter(pk=pk)
+        publication.delete()
+        return redirect('editPublications')
+    return redirect('/')
+
