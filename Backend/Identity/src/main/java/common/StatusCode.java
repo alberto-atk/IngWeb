@@ -1,4 +1,4 @@
-package identity;
+package common;
 
 public enum StatusCode {
     UNDEFINED,

@@ -8,7 +8,7 @@ package rest;
 import db.UserDB;
 import identity.IdentityDAO;
 import identity.IdentityStore;
-import identity.RESTuser;
+import common.RESTuser;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -46,8 +46,9 @@ public class token {
 
     
     @GET
-    @Path ("{login}&{password}")
+    @Path ("{login}/{password}")
     public String getToken(@PathParam("login") String _login, @PathParam("password") String _password) {
+        System.out.println("GET token");
         return identityStore.getToken(_login,identityStore.getSHA256(_password), System.currentTimeMillis());
     }
     
@@ -55,6 +56,7 @@ public class token {
     @DELETE
     @Path ("{token}")
     public void cancelToken(@PathParam("token") String _token){
+        System.out.println("DELETE cancelToken() ");
         identityStore.cancelToken(_token);
     }
 }

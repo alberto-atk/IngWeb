@@ -6,6 +6,7 @@
 package identity;
 
 import db.UserDB;
+import common.RESTuser;
 import java.util.GregorianCalendar;
 
 /**

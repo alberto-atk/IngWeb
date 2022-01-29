@@ -1,8 +1,9 @@
 
-package identity;
+package common;
 
 
 import com.google.gson.Gson;
+import common.StatusCode;
 
 import java.io.Serializable;
 

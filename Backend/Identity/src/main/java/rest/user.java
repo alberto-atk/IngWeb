@@ -8,7 +8,7 @@ package rest;
 import db.UserDB;
 import identity.IdentityDAO;
 import identity.IdentityStore;
-import identity.RESTuser;
+import common.RESTuser;
 import java.util.GregorianCalendar;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -44,6 +44,7 @@ public class user {
     @POST
     @Path ("{password}")
     public void createUser(RESTuser _user, @PathParam("password") String _password) {
+        System.out.println("POST createUser()");
         String encodedPassword = identityStore.getSHA256(_password);
         String token = identityStore.generateRandomString();
         UserDB user = new UserDB(_user.getLogin(),_user.getName(),
@@ -58,6 +59,7 @@ public class user {
     @GET
     @Path ("{token}")
     public RESTuser getUser(@PathParam("token") String _token) {
+        System.out.println("GET user");
         return identityStore.getUser(_token, System.currentTimeMillis());
     }
 
@@ -66,8 +68,9 @@ public class user {
      * @param content representation for the resource
      */
     @PUT
-    @Path ("{token}&{newClearPwd}")
+    @Path ("{token}/{newClearPwd}")
     public void changePassword(@PathParam("token") String _token, @PathParam("newClearPwd") String _newClearPwd) {
+        System.out.println("PUT changePassword()");
         identityStore.changePassword(_token,identityStore.getSHA256(_newClearPwd), System.currentTimeMillis());
     }
     
