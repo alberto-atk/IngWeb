@@ -11,16 +11,20 @@
       <img class="logo" src="{% static 'img/logo-menos-ancho.png' %}" alt="" width="218" height="323">
       <h1 class="h3 mb-3 font-weight-normal">Ajustes</h1>
       <br>
-
-
-        <input type="text" id="login" name="login" class="form-control" placeholder="Nombre de usuario">
-        <input type="text" id="name" name="name" class="form-control" placeholder="Nombre">
-        <input type="text" id="surname" name="surname" class="form-control" placeholder="Apellidos">
-        <input type="email" id="email" name="email" class="form-control" placeholder="Correo electrónico">
-        <input type="password" id="password" name="password" class="form-control" placeholder="Contraseña">
+          <label>Actual: {{ username }}</label>
+          <input type="text" id="username" name="username" class="form-control" placeholder="Nombre de usuario">
+        
+          <label>Actual: {{ name }}</label>       
+          <input type="text" id="name" name="name" class="form-control" placeholder="Nombre">
+        
+          <label>Actual: {{ surname }}</label>
+          <input type="text" id="surname" name="surname" class="form-control" placeholder="Apellidos">
+        
+          <label>Actual: {{ mail }}</label>
+          <input type="email" id="mail" name="mail" class="form-control" placeholder="Correo electrónico">
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">Modificar</button>
-      <!-- TODO Preguntar si poner el copy<p class="mt-5 mb-3 text-muted">&copy; 2022-2018</p>-->
+      <!-- TODO De momento sin contraseña, si eso apñar el de accounts-->
       <br> <br> <br>
     </form>
 

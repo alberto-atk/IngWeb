@@ -6,6 +6,7 @@
 
 {% block content %}
 {% for worker in workersList %}
+<div class="container">
     <img class="rounded mx-auto d-block" src="{{ MEDIA_URL }}{{ worker.1 }}">
     <br>
     <div class="about">
@@ -36,6 +37,8 @@
             </div>
         </div>
     </div>
-    <hr>
+    
+</div>
+<hr>
 {% endfor %}
 {% endblock %}

@@ -1,24 +1,34 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
-from catalog.models import Client, Booking, Worker
+from catalog.models import Client, Booking, Worker, Publication
 from django.contrib.auth.models import User
 import datetime
+import locale
+
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
 def index(request):
-    """View function for home page of site."""
-    num_visits = request.session.get('num_visits', 0)
-    request.session['num_visits'] = num_visits + 1
+    publications = Publication.objects.filter().values()
+    publicationsModified = []
+    locale.setlocale(locale.LC_ALL, '') 
+
+    for publication in publications:
+        publicationsModified.append((
+            publication['hashtags'],
+            publication['title'],
+            publication['image'],
+            publication['description'],
+            publication['date'].strftime("%d %b %Y %H:%M")
+        ))
 
     context = {
-        'num_visits': num_visits,
         'Inicio' : True,
         'showLoginLogout': True,
+        'publications': publicationsModified
     }
 
-    # Render the HTML template index.html with the data in the context variable
     return render(request, 'index.html', context=context)
 
 def register(request):
@@ -162,18 +172,46 @@ def deleteBooking(request):
 
 @login_required
 def settings(request):
+
+    client = Client.objects.get(username=request.user)
+
+    client.mail = "apbatecaz@gmail.com"    
     context = {
         'showLoginLogout': False,
-    }
-    cliente = Client.objects.get(username=request.user)
+        'name': client.name,
+        'username': client.username,
+        'mail':client.mail,
+        'surname':client.surname
+    }    
     
-    print(cliente)
-    print(request.user)
-
     return render(request,'settings.html', context=context)
 
 
 @login_required
 def changeSettings(request):
+    if request.method == "POST":
+        user = User.objects.get(username=request.user)
+        client = Client.objects.get(username=request.user)
+        if request.POST['username']:
+            client.username = request.POST['username']
+            user.username = request.POST['username']
 
-    return redirect('index')
+        if request.POST['name']:
+            client.name = request.POST['name']
+            user.name = request.POST['name']
+
+        if request.POST['surname']:
+            client.surname = request.POST['surname']
+            user.surname = request.POST['surname']      
+
+        if request.POST['mail']:
+            client.mail = request.POST['mail']
+            user.email = request.POST['mail']
+            print(client.mail)
+            print(user.email)
+            #TODO mirar porque el correo no va
+
+        client.save()
+        user.save()
+        
+    return redirect('settings')

@@ -41,3 +41,17 @@ class Worker(models.Model):
         """String for representing the Model object."""
         return str(self.id)
 
+class Publication(models.Model):
+    id = models.AutoField(primary_key=True)
+    hashtags = models.CharField(max_length=50, help_text='Hashtags')
+    title = models.CharField(max_length=20, help_text='Nombre')
+    image = models.ImageField(max_length=100)
+
+    description = models.CharField(max_length=500, help_text='Description')
+    content = models.CharField(max_length=2000, help_text='content')
+    references = models.CharField(max_length=2000, help_text='References')
+
+    date = models.DateTimeField(auto_now_add=False)
+
+
+
