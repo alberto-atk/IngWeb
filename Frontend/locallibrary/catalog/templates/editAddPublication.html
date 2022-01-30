@@ -1,0 +1,63 @@
+{% extends "base_generic.html" %}
+
+{% load static %}
+{% block content %}
+
+{% if addPublication %}
+<div class="text-center">
+    <form class="form-signin" id="form" method="post" action="addPublication" enctype="multipart/form-data">
+      {% csrf_token %}
+        <input type="text" id="hashtags" name="hashtags" class="form-control" placeholder="Hashtags" required autofocus><br>
+        <input type="text" id="title" name="title" class="form-control" placeholder="Título" required autofocus><br>
+        
+        <input type="file" id="image" name="image" class="form-control" required autofocus><br>
+        
+        <textarea name="description" class="form-control" placeholder="Introduzca la descripción" rows="7"
+        cols="20" required autofocus></textarea><br>
+        <textarea name="content" class="form-control" placeholder="Introduzca el contenido" rows="7" 
+        cols="20" required autofocus></textarea><br>
+<!--  -->
+        <button class="btn btn-lg btn-primary btn-block" type="submit"><i class="fa fa-plus"></i> Añadir</button>
+      <!-- TODO Preguntar si poner el copy<p class="mt-5 mb-3 text-muted">&copy; 2022-2018</p>-->
+    </form>
+</div>
+{% endif %}
+
+{% if editPublication %}
+<div class="text-center">
+    <form class="form-signin" id="form" method="post" action="{% url 'editPublication' id %}" enctype="multipart/form-data">
+      {% csrf_token %}
+        <label>Actual: {{ hashtags }}</label>
+        <input type="text" id="hashtags" name="hashtags" class="form-control" placeholder="Hashtags"><br>
+        
+        <label>Actual: {{ title }}</label>
+        <input type="text" id="title" name="title" class="form-control" placeholder="Título"><br>
+        
+        <div class="row justify-content-md-center">
+            <div class="col-lg-8 col-md-4 col-sm-4 col-md-offset-4">
+                <label>Actual: </label><img src="{{ MEDIA_URL }}{{ image }}" alt="" class="w-100">
+            </div> 
+        </div>   
+        <br>
+        <input type="file" id="image" name="image" class="form-control"><br>
+        
+        <textarea name="description" class="form-control" placeholder="Introduzca la descripción" rows="7"
+        cols="20">{{ description }}</textarea><br>
+        <textarea name="content" class="form-control" placeholder="Introduzca el contenido" rows="7" 
+        cols="20">{{ content }}</textarea><br>
+
+        <input id="date" name="date" class="form-control" type="date"><br>
+<!--  -->
+        <button class="btn btn-lg btn-primary btn-block" type="submit"><i class="fa fa-pencil"></i> Editar</button>
+      <!-- TODO Preguntar si poner el copy<p class="mt-5 mb-3 text-muted">&copy; 2022-2018</p>-->
+    </form>
+</div>
+{% endif %}
+
+
+
+<script>
+    document.getElementById('date').valueAsDate = new Date();
+    document.getElementById('date').min = new Date();
+</script>
+{% endblock %}

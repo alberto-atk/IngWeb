@@ -7,7 +7,7 @@
     <div class="container">
       <br>
 
-    <a class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Añadir</a>
+    <a href="{% url 'addPublicationView' %}" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Añadir</a>
 
       <br>
     <h4> Gestión de las publicaciones</h4>
@@ -30,7 +30,7 @@
                                               width:120px; 
                                               margin-left:auto;
                                               margin-right:auto;" href=""><i class="fa fa-times"></i> Eliminar</a>
-            <a class="btn btn-primary" style="width:100px; 
+            <a href="{% url 'editPublicationView' publication.5 %}" class="btn btn-primary" style="width:100px; 
                                              margin-left:auto;
                                              margin-right:auto;"><i class="fa fa-pencil"></i> Editar</a>
           </div>

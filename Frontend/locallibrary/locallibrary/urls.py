@@ -40,6 +40,11 @@ urlpatterns = [
     re_path(r'^editPublications/$', views.editPublications, name='editPublications'),
     re_path(r'^bookings/makeBooking', views.makeBooking, name='makeBooking'),
     re_path(r'^publicationDetails/(?P<pk>\d+)$',views.publicationDetails, name='publicationDetails'),
-    re_path(r'^deletePublication/(?P<pk>\d+)$',views.deletePublication, name='deletePublication'),
+    re_path(r'^editPublications/deletePublication/(?P<pk>\d+)$',views.deletePublication, name='deletePublication'),
+    re_path(r'^editPublicationView/(?P<pk>\d+)',views.editPublicationView, name='editPublicationView'),
+    re_path(r'^addPublicationView/$',views.addPublicationView, name='addPublicationView'),
+    path('addPublicationView/addPublication',views.addPublication, name='addPublication'),
+    path('editPublicationView/editPublication/(?P<pk>\d+)',views.editPublication, name='editPublication'),
+
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

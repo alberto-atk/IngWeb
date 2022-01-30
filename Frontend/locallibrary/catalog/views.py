@@ -4,6 +4,7 @@ from catalog.models import Client, Booking, Worker, Publication
 from django.contrib.auth.models import User
 import datetime
 import locale
+import os
 
 from django.contrib.auth.decorators import login_required
 
@@ -228,10 +229,6 @@ def changeSettings(request):
 @login_required
 def editPublications(request):
     if request.user.groups.filter(name__in=['Editor']):
-        esEditor = False
-        if request.user.groups.filter(name__in=['Editor']):
-            esEditor = True
-
 
         context = {
             'EditarPublicaciones':True,
@@ -281,11 +278,86 @@ def publicationDetails(request, pk):
 @login_required
 def deletePublication(request, pk):
     if request.user.groups.filter(name__in=['Editor']) and pk:
-        esEditor = False
-        if request.user.groups.filter(name__in=['Editor']):
-            esEditor = True
-        publication = Publication.objects.filter(pk=pk)
+        publication = Publication.objects.get(pk=pk)
         publication.delete()
+        return redirect('editPublications')
+    return redirect('/')
+
+@login_required
+def addPublicationView(request):
+    if request.user.groups.filter(name__in=['Editor']):
+        context = {
+            'addPublication': True,
+            'EditarPublicaciones':True,
+            'ActivarEditarPublicaciones':True,
+        }
+        return render(request,'editAddPublication.html',context=context)
+
+    return redirect('/')
+
+
+@login_required
+def addPublication(request):
+    if request.user.groups.filter(name__in=['Editor']) and request.method == "POST":
+        publication = Publication.objects.create(
+            hashtags=request.POST['hashtags'],
+            title=request.POST['title'],
+            description=request.POST['description'],
+            content=request.POST['content'],
+            date=datetime.datetime.now()
+        )
+
+        publication.image.save(request.FILES['image'].name,request.FILES['image'])
+        publication.save()
+
+
+        return redirect('editPublications')
+    return redirect('/')
+
+
+
+@login_required
+def editPublicationView(request, pk):
+    if request.user.groups.filter(name__in=['Editor']) and pk:
+        publication = Publication.objects.filter(pk=pk).values()[0]
+
+        context = {
+            'editPublication': True,
+            'EditarPublicaciones':True,
+            'ActivarEditarPublicaciones':True,
+            'id':pk,
+            'hashtags': publication['hashtags'],
+            'title': publication['title'],
+            'image': publication['image'],
+            'description': publication['description'],
+            'content': publication['content'],
+            'date': publication['date']
+        }
+        return render(request,'editAddPublication.html',context=context)
+
+    return redirect('/')
+
+
+@login_required
+def editPublication(request, pk):
+    if request.user.groups.filter(name__in=['Editor']) and pk:
+        publication = Publication.objects.get(pk=pk)
+
+        if request.POST['hashtags']:
+            publication.hashtags = request.POST['hashtags']
+        if request.POST['title']:
+            publication.title = request.POST['title']
+        if request.FILES:
+            os.remove(publication.image.path)
+            publication.image.save(request.FILES['image'].name,request.FILES['image'])
+        if request.POST['description']:
+            publication.description = request.POST['description']
+        if request.POST['content']:
+            publication.content = request.POST['content']
+        if request.POST['date']:
+            publication.date = request.POST['date']
+
+        publication.save()
         return redirect('editPublications')
     return redirect('/')
 
