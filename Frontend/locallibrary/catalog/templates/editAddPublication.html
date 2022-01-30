@@ -46,7 +46,7 @@
         <textarea name="content" class="form-control" placeholder="Introduzca el contenido" rows="7" 
         cols="20">{{ content }}</textarea><br>
 
-        <input id="date" name="date" class="form-control" type="date"><br>
+        <input id="date" name="date" class="form-control" type="datetime-local"><br>
 <!--  -->
         <button class="btn btn-lg btn-primary btn-block" type="submit"><i class="fa fa-pencil"></i> Editar</button>
       <!-- TODO Preguntar si poner el copy<p class="mt-5 mb-3 text-muted">&copy; 2022-2018</p>-->
@@ -57,7 +57,6 @@
 
 
 <script>
-    document.getElementById('date').valueAsDate = new Date();
     document.getElementById('date').min = new Date();
 </script>
 {% endblock %}
